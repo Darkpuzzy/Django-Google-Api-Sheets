@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TESTBUZY</title>
+</head>
+<body>
+{% for item in Ticket %}
+<div class="card mb-3">
+    items
+
+    {{ item.price_dlr }}
+    __________
+    <div class="card-header">
+        Категория: {{ item.title }}</a>
+    </div>
+    <div class="card-footer text-muted">
+        {{item.deliv_data}}
+    </div>
+</div>
+{% endfor %}
+</body>
+</html>
