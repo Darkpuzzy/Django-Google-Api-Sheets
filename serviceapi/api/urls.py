@@ -4,5 +4,6 @@ from . import views
 
 urlpatterns = [
     path('tickets/', views.Home.as_view()),
-    path('index/', views.index)
+    path('index/<int:pk>', views.index),
+    path('react/api/orders', views.OrderCreateList.as_view()),
 ]

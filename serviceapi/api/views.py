@@ -8,16 +8,30 @@ from .models import *
 from rest_framework import generics
 from django.contrib.auth.models import User
 from rest_framework import status
-from .serializers import added_to_db
+from .serializers import OrderSerializer
+from .db_method import added_to_db, _updated_data
 from .googleapi import GoogleApi
 
-# Create your views here.
+
+""" Для обработки нужно будет обновлять страницу,фикс постараться поискать"""
 
 
-def index(request):
+@api_view(['GET'])
+def index(request, pk):
+    status_code = status.HTTP_200_OK
     gsi = GoogleApi()
     list_to_db = gsi.get_rows(ranges='List1')
-    return print(added_to_db(list_data=list_to_db))
+    model = Ticket.objects.get(pk=pk)
+
+    response = {'order': model.order, 'price_dlr': model.price_dlr}
+    print(_updated_data(list_data=list_to_db))
+    print(added_to_db(list_data=list_to_db))
+    return Response(response, status=status_code)
+
+
+class OrderCreateList(generics.ListCreateAPIView):
+    queryset = Ticket.objects.all()
+    serializer_class = OrderSerializer
 
 
 class Home(ListView):

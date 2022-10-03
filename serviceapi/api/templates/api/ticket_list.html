@@ -7,16 +7,20 @@
 <body>
 {% for item in Ticket %}
 <div class="card mb-3">
-    items
-
-    {{ item.price_dlr }}
-    __________
+    <div class="items">
+        ITEMS : {{item.order}}
+    </div>
+    <div class="price_obj">
+        {{ item.price_dlr }}$ ||
+        {{ item.price_in_ru}} RUB
+    </div>
     <div class="card-header">
-        Категория: {{ item.title }}</a>
+        Категория: {{item.delivered}}</a>
     </div>
     <div class="card-footer text-muted">
         {{item.deliv_data}}
     </div>
+    <br>
 </div>
 {% endfor %}
 </body>
