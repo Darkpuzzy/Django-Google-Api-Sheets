@@ -1,5 +1,5 @@
 from .models import Ticket
-
+from .googleapi import GoogleApi
 # ['id', 'order', 'price_dlr', 'deliv_data', 'price_in_ru'] Table input
 
 
@@ -12,6 +12,8 @@ def added_to_db(list_data: list):
     except:
         return 'ERROR\nPlease ask administration'
 
+# List comparison ( db == Google Sheet )
+
 
 def _list_orders(list_data_get: list):
     list_output = []
@@ -21,14 +23,26 @@ def _list_orders(list_data_get: list):
         list_output.append(x)
     return list_output
 
+# Check data from Google Api Sheets
+
 
 def _updated_data(list_data: list):
     orders = _list_orders(list_data_get=list_data)
-    appent = []
     model = Ticket.objects.all()
     for items in model:
         if items.order not in orders:
-            appent.append(items.order)
             delet = Ticket.objects.filter(order=items.order).delete()
             delet.save()
-    return appent
+    return 'Successfully updated'
+
+# Activate up functions
+
+
+def main():
+    gsi = GoogleApi()
+    list_to_db = gsi.get_rows(ranges='List1')
+    added_to_db(list_data=list_to_db)
+    _updated_data(list_data=list_to_db)
+    return 'Updated ...'
+
+
