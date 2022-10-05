@@ -24,7 +24,7 @@ class GoogleApi:
                 creds.refresh(Request())
             else:
                 flow = InstalledAppFlow.from_client_secrets_file(
-                    'api/credentials1.json', self.SCOPES)
+                    'credentials1.json', self.SCOPES)
                 creds = flow.run_local_server(port=0)
             # Save the credentials for the next run
             with open('token.json', 'w') as token:
@@ -116,8 +116,11 @@ class GoogleApi:
         daily = DailyCurrenciesRates()
         value = daily.get_by_id('R01235').value
         for el in list_ad:
-            go_to_ru = int(el[2])*int(value)
-            el.append(str(go_to_ru))
+            try:
+                go_to_ru = int(el[2])*int(value)
+                el.append(str(go_to_ru))
+            except ValueError:
+                pass
         return list_ad
 
 

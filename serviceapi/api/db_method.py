@@ -1,5 +1,6 @@
 from .models import Ticket
 from .googleapi import GoogleApi
+from time import sleep
 # ['id', 'order', 'price_dlr', 'deliv_data', 'price_in_ru'] Table input
 
 
@@ -31,18 +32,21 @@ def _updated_data(list_data: list):
     model = Ticket.objects.all()
     for items in model:
         if items.order not in orders:
-            delet = Ticket.objects.filter(order=items.order).delete()
-            delet.save()
-    return 'Successfully updated'
-
+            Ticket.objects.filter(order=items.order).delete()
+        else:
+            print(orders)
+            # orders.clear()
+            return print('Not updated')
 # Activate up functions
 
 
 def main():
     gsi = GoogleApi()
-    list_to_db = gsi.get_rows(ranges='List1')
-    added_to_db(list_data=list_to_db)
-    _updated_data(list_data=list_to_db)
-    return 'Updated ...'
+    while True:
+        list_to_db = gsi.get_rows(ranges='List1')
+        sleep(4)
+        added_to_db(list_data=list_to_db)
+        _updated_data(list_data=list_to_db)
+
 
 
