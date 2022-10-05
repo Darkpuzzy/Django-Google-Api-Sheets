@@ -1,19 +1,25 @@
 version: '3'
 
 services:
+  db:
+    image: postgres:13
+    privileged: true
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: vxdf44qwer
+      POSTGRES_DB: jango
+
   backend:
-    build: ./serviceapi
+    build: ./
     privileged: true
     ports:
       - 8080:8080
-    command:
-        python manage.py migrate &&
-        python manage.py runserver 0.0.0.0:8080
-
-  frontend:
-    build: ./serviceapi/frontend
-    privileged: true
-    ports:
-      - 80:80
-    command:
-      - npm run dev
+        python serviceapi/manage.py migrate &&
+        python serviceapi/manage.py runserver 0.0.0.0:8080
+    env_file:
+      - ./.env
+        command:.dev
+    depends_on:
+      - db
