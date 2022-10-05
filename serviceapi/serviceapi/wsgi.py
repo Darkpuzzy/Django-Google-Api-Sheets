@@ -18,8 +18,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'serviceapi.settings')
 """
 Starting thread for auto-updated db with Google Sheets
 """
-while True:
-    sleep(15)
-    thr = threading.Thread(target=main(), daemon=True).start()
 
-    application = get_wsgi_application()
+
+thr = threading.Thread(target=main, daemon=True).start()
+application = get_wsgi_application()
