@@ -16,10 +16,10 @@ services:
     privileged: true
     ports:
       - 8080:8080
+    command: bash -c "
         python serviceapi/manage.py migrate &&
-        python serviceapi/manage.py runserver 0.0.0.0:8080
+        python serviceapi/manage.py runserver 0.0.0.0:8080"
     env_file:
-      - ./.env
-        command:.dev
+      - ./.env.dev
     depends_on:
       - db
